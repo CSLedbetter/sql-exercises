@@ -36,7 +36,7 @@ describe('DML Exercises', () => {
     expect(results instanceof Array).to.equal(true, 'Exercise has not been started');
 
     expect(results.every(r => Object.keys(r).length)).to.equal(true);
-    
+
     expectedColumns.forEach((col, i) => {
       results.forEach((result, j) => expect(Object.keys(result)[i]).to.equal(col, `Expected ${col} to be column #${i+1} in result set.`))
     });
@@ -205,7 +205,7 @@ describe('DML Exercises', () => {
     })
   );
 
-  it('12-inner-join', () => 
+  it('12-inner-join', () =>
     readAndExecute('12-inner-join')
     .then(results => {
       expectReturnedColumns(['rental_date', 'first_name', 'last_name', 'title'], results);
@@ -213,4 +213,22 @@ describe('DML Exercises', () => {
       results.forEach(r => expect(moment.utc(r.rental_date).format('MM/DD/YYYY')).to.equal('05/25/2005'));
     })
   );
+
+  it('13-left-join', () =>
+    readAndExecute('13-left-join')
+    .then(results => {
+      expectReturnedColumns(['customer_name', 'payment_date', 'amount', 'customer_active'], results);
+      expect(results.length).to.equal(15644);
+      expect(results.every(r => r.customer_active === 1)).to.equal(true);
+      expect(results).to.be.sortedBy('payment_date');
+    }));
+
+  it('14-group-by', () =>
+    readAndExecute('14-group-by')
+    .then(results => {
+      expectReturnedColumns(['customer_name', 'total_revenue'], results)
+      expect(results.length).to.equal();
+      expect(results.every(r => r.customer_name[0] === 'S')).to.equal(true);
+      expect(results).to.be.sortedBy('total_revenue', true);
+    }));
 });
