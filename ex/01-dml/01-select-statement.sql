@@ -8,9 +8,9 @@
 
 # Write a query to retrieve all rows and all columns from the actor table.
 
-
+select actor_id, first_name, last_name, last_update from actor;
 # Write a query to retrieve all rows and only the last_name column from the actor table.
-
+SELECT last_name FROM actor;
 
 # Write a query to retrieve all rows with the following columns from the film table:
 # 
@@ -20,3 +20,4 @@
 # rental_duration       Exists in film table.
 # rental_rate           Exists in film table.
 # total_rental_cost     rental_duration * rental_rate
+SELECT title, description, rental_duration, rental_rate, (rental_duration * rental_rate) as total_rental_cost from film;

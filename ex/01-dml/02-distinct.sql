@@ -7,3 +7,4 @@
 # MySQL DML Exercises 2/20 - The DISTINCT Operator
 
 # Write a query to select all distinct last names from the actor table
+SELECT distinct last_name FROM actor;
