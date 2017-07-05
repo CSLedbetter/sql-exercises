@@ -240,4 +240,25 @@ describe('DML Exercises', () => {
       expect(results.every(r => r.customer_name[0] === 'S' && r.total_revenue > 150)).to.equal(true);
       expect(results).to.be.sortedBy('total_revenue', true);
     }));
+
+  it('16-insert.sql', (done) => {
+    let beforeLength = 0;
+    let afterLength = 0;
+
+    sqlConnection.query('select count(*) from city', (err, results) => {
+      beforeLength = results[0]['count(*)'];
+      readAndExecute('16-insert')
+      .then(results => {
+        sqlConnection.query('select count(*) from city', (err, results) => {
+          afterLength = results[0]['count(*)'];
+
+          expect(afterLength - beforeLength).to.equal(1);
+
+          sqlConnection.query('delete from city where city = "San Diego"');
+
+          done();
+        });
+      });
+    });
+  }).timeout(5000);
 });
