@@ -227,7 +227,7 @@ describe('DML Exercises', () => {
     readAndExecute('14-group-by')
     .then(results => {
       expectReturnedColumns(['customer_name', 'total_revenue'], results)
-      expect(results.length).to.equal();
+      expect(results.length).to.equal(10);
       expect(results.every(r => r.customer_name[0] === 'S')).to.equal(true);
       expect(results).to.be.sortedBy('total_revenue', true);
     }));

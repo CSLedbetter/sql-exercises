@@ -5,3 +5,4 @@
 #          |_____|        |__|
 #
 # MySQL DML Exercises 15/20 - The HAVING clause
+
