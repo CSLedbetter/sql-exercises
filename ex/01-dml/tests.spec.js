@@ -248,17 +248,39 @@ describe('DML Exercises', () => {
     sqlConnection.query('select count(*) from city', (err, results) => {
       beforeLength = results[0]['count(*)'];
       readAndExecute('16-insert')
-      .then(results => {
-        sqlConnection.query('select count(*) from city', (err, results) => {
-          afterLength = results[0]['count(*)'];
+        .then(results => {
+          sqlConnection.query('select count(*) from city', (err, results) => {
+            afterLength = results[0]['count(*)'];
 
-          expect(afterLength - beforeLength).to.equal(1);
+            expect(afterLength - beforeLength).to.equal(1);
 
-          sqlConnection.query('delete from city where city = "San Diego"');
+            sqlConnection.query('delete from city where city = "San Diego"');
 
-          done();
+            done();
+          });
         });
-      });
     });
   }).timeout(5000);
+
+  it('17-update.sql', (done) => {
+    const sql = `
+      update film
+      set description = "A Beautiful Drama of a Dentist And a Composer who must Battle a Sumo Wrestler in The First Manned Space Station"
+      where film_id = 100
+    `;
+
+    sqlConnection.query(sql, (err, results) => {
+      expect(err === null).to.equal(true);
+
+      readAndExecute('17-update', (results) => {
+        sqlConnection.query('select description from film where film_id = 100', (err, results) => {
+          expect(err == null).to.equal(true);
+
+          expect(results[0].description).to.not.equal('A Beautiful Drama of a Dentist And a Composer who must Battle a Sumo Wrestler in The First Manned Space Station');
+        });
+      });
+
+      done();
+    })
+  });
 });
