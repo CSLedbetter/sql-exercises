@@ -222,4 +222,13 @@ describe('DML Exercises', () => {
       expect(results.every(r => r.customer_active === 1)).to.equal(true);
       expect(results).to.be.sortedBy('payment_date');
     }));
+
+  it('14-group-by', () =>
+    readAndExecute('14-group-by')
+    .then(results => {
+      expectReturnedColumns(['customer_name', 'total_revenue'], results)
+      expect(results.length).to.equal();
+      expect(results.every(r => r.customer_name[0] === 'S')).to.equal(true);
+      expect(results).to.be.sortedBy('total_revenue', true);
+    }));
 });
