@@ -16,14 +16,3 @@
 # - Use WHERE and the LEFT function to find customers with first name starting with S
 # - Use HAVING to filter customers where revenue is over $150.
 # Include the following columns: Customer Name (First + Space + Last) as customer_name, Total Revenue as total_revenue
-
-select
-	CONCAT(first_name, " ", last_name) as customer_name,
-    SUM(amount) as total_revenue
-from payment
-left join customer on customer.customer_id = payment.customer_id
-where LEFT(customer.first_name, 1) = "S"
-group by customer_name
-having total_revenue > 150
-order by total_revenue desc
-limit 10;
