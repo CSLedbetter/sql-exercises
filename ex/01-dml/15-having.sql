@@ -4,7 +4,7 @@
 # |__|__|__|___  |_____|__   ||__|
 #          |_____|        |__|
 #
-# MySQL DML Exercises 14/20 - The GROUP BY clause
+# MySQL DML Exercises 15/20 - The HAVING Clause
 
 # Write a query to select the top 10 paying customers with a first name that begins with S, ordered by total revenue in descending order.
 # This time, only pull customers where the total revenue is over $150.
