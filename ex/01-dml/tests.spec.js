@@ -205,7 +205,7 @@ describe('DML Exercises', () => {
     })
   );
 
-  it('12-inner-join', () =>
+  it('12-inner-join.sql', () =>
     readAndExecute('12-inner-join')
     .then(results => {
       expectReturnedColumns(['rental_date', 'first_name', 'last_name', 'title'], results);
@@ -214,7 +214,7 @@ describe('DML Exercises', () => {
     })
   );
 
-  it('13-left-join', () =>
+  it('13-left-join.sql', () =>
     readAndExecute('13-left-join')
     .then(results => {
       expectReturnedColumns(['customer_name', 'payment_date', 'amount', 'customer_active'], results);
@@ -223,7 +223,7 @@ describe('DML Exercises', () => {
       expect(results).to.be.sortedBy('payment_date');
     }));
 
-  it('14-group-by', () =>
+  it('14-group-by.sql', () =>
     readAndExecute('14-group-by')
     .then(results => {
       expectReturnedColumns(['customer_name', 'total_revenue'], results)
@@ -231,4 +231,34 @@ describe('DML Exercises', () => {
       expect(results.every(r => r.customer_name[0] === 'S')).to.equal(true);
       expect(results).to.be.sortedBy('total_revenue', true);
     }));
+
+  it('15-having.sql', () =>
+    readAndExecute('15-having')
+    .then(results => {
+      expectReturnedColumns(['customer_name', 'total_revenue'], results)
+      expect(results.length).to.equal(5);
+      expect(results.every(r => r.customer_name[0] === 'S' && r.total_revenue > 150)).to.equal(true);
+      expect(results).to.be.sortedBy('total_revenue', true);
+    }));
+
+  it('16-insert.sql', (done) => {
+    let beforeLength = 0;
+    let afterLength = 0;
+
+    sqlConnection.query('select count(*) from city', (err, results) => {
+      beforeLength = results[0]['count(*)'];
+      readAndExecute('16-insert')
+      .then(results => {
+        sqlConnection.query('select count(*) from city', (err, results) => {
+          afterLength = results[0]['count(*)'];
+
+          expect(afterLength - beforeLength).to.equal(1);
+
+          sqlConnection.query('delete from city where city = "San Diego"');
+
+          done();
+        });
+      });
+    });
+  }).timeout(5000);
 });
